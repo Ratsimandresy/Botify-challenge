@@ -46,12 +46,17 @@ export default class Chart1 extends Component {
         "Min Estimated Diameter (km)",
         "Max Estimated Diameter (km)",
       ],
-      ["name1", 50, 150],
-      ["name2", 20, 120],
-      ["name3", 30, 900],
+      // ["name1", 50, 150],
+      // ["name2", 20, 120],
+      // ["name3", 30, 900],
+      [namesOfNEOs[0], minDiameters[0], maxDiameters[0]],
+      [namesOfNEOs[1], minDiameters[1], maxDiameters[1]],
+      [namesOfNEOs[2], minDiameters[2], maxDiameters[2]],
+      [namesOfNEOs[3], minDiameters[3], maxDiameters[3]],
+      [namesOfNEOs[4], minDiameters[4], maxDiameters[4]],
     ]);
 
-    const options = { title: "Near Earth object", width: 700, height: 300 };
+    const options = { title: "Near Earth object" };
 
     const chart1 = new GoogleCharts.api.visualization.BarChart(
       document.getElementById("chart1")
