@@ -68,3 +68,9 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+## "Botify challenge"
+
+1. Create a React application : **npx create-react-app**
+2. Fetch data from NASA's API (here: AXIOS)
+3. Display data in a chart using Google Charts
