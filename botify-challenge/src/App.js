@@ -1,5 +1,5 @@
 import React from "react";
-import Chart1 from "./Views/Chart1";
+import Chart1 from "./Components/Chart1";
 function App() {
   return (
     <div>
