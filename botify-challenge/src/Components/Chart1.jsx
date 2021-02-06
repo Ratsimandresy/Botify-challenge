@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { GoogleCharts } from "google-charts";
 import api from "../api/apiHnadler";
+import { transposeData } from "../Utils/transposeData";
 
 export default class Chart1 extends Component {
   state = {
@@ -8,7 +9,6 @@ export default class Chart1 extends Component {
   };
 
   async componentDidMount() {
-    // console.log("COMPONENTDIDMOUT");
     try {
       const response1 = await api.getNEOsOnPage0();
       const response2 = await api.getNEOsOnPage1();
@@ -39,24 +39,27 @@ export default class Chart1 extends Component {
     );
     const namesOfNEOs = this.state.neo.map((n) => n.name);
 
-    //drawing the charts
-    const data = GoogleCharts.api.visualization.arrayToDataTable([
-      [
-        "Name fo NEO",
-        "Min Estimated Diameter (km)",
-        "Max Estimated Diameter (km)",
-      ],
-      // ["name1", 50, 150],
-      // ["name2", 20, 120],
-      // ["name3", 30, 900],
-      [namesOfNEOs[0], minDiameters[0], maxDiameters[0]],
-      [namesOfNEOs[1], minDiameters[1], maxDiameters[1]],
-      [namesOfNEOs[2], minDiameters[2], maxDiameters[2]],
-      [namesOfNEOs[3], minDiameters[3], maxDiameters[3]],
-      [namesOfNEOs[4], minDiameters[4], maxDiameters[4]],
-    ]);
+    let dataToTranspose = [namesOfNEOs, minDiameters, maxDiameters];
 
-    const options = { title: "Near Earth object" };
+    const infoOfData = [
+      "Name fo NEO",
+      "Min Estimated Diameter (km)",
+      "Max Estimated Diameter (km)",
+    ];
+
+    let dataToDisplay = transposeData(dataToTranspose);
+
+    dataToDisplay.unshift(infoOfData);
+
+    // console.log(dataToDisplay);
+
+    //drawing the charts taking an array as parameters
+    const data = GoogleCharts.api.visualization.arrayToDataTable(dataToDisplay);
+
+    const options = {
+      title: "Near Earth object",
+      height: 1000,
+    };
 
     const chart1 = new GoogleCharts.api.visualization.BarChart(
       document.getElementById("chart1")
