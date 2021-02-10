@@ -2,10 +2,13 @@ import React, { Component } from "react";
 import { GoogleCharts } from "google-charts";
 import api from "../api/apiHnadler";
 import { transposeData } from "../Utils/transposeData";
+import FilterBar from "./FilterBar";
 
 export default class Chart1 extends Component {
   state = {
     neo: [],
+    orbitingBodies: [],
+    orbitingBody: "",
   };
 
   async componentDidMount() {
@@ -16,11 +19,19 @@ export default class Chart1 extends Component {
       const neoPage0 = response1.data.near_earth_objects;
       const neoPage1 = response2.data.near_earth_objects;
 
+      console.log(neoPage0);
+
+      // console.log(
+      //   neoPage0.filter((n) => {
+      //     return n.close_approach_data[0].orbiting_body === "Mars";
+      //   })
+      // );
+
       GoogleCharts.load(this.drawChart); // make sure to call drawChatrs afters fetching the data otherwise the chart will not be drawn
 
       this.setState({ neo: [...neoPage0, ...neoPage1] });
 
-      //console.log(this.state); => shows the state updating after fetching the data
+      // console.log(this.state); //=> shows the state updating after fetching the data
     } catch (err) {
       console.log(err);
     }
@@ -28,7 +39,7 @@ export default class Chart1 extends Component {
 
   drawChart = () => {
     //after getting the data response, we have acces to the updted state
-    console.log("this is neo", this.state.neo);
+    // console.log("this is neo", this.state.neo);
 
     //retreiving the data we need form the response
     const minDiameters = this.state.neo.map(
@@ -56,6 +67,8 @@ export default class Chart1 extends Component {
     //drawing the charts taking an array as parameters
     const data = GoogleCharts.api.visualization.arrayToDataTable(dataToDisplay);
 
+    data.getFilteredRow([{}]);
+
     const options = {
       title: "Near Earth object",
       height: 2000,
@@ -67,7 +80,30 @@ export default class Chart1 extends Component {
     chart1.draw(data, options);
   };
 
+  handleChange = (e) => {
+    // console.log(e.target);
+    this.setState({ orbitingBoby: e.target.value });
+  };
+
   render() {
-    return <div id="chart1"></div>;
+    const orbitingBobyList = this.state.neo.map(
+      (n) => n.close_approach_data[0].orbiting_body
+    );
+
+    console.log(orbitingBobyList);
+
+    let orbitingBody = [...new Set(orbitingBobyList)];
+    console.log(orbitingBody);
+
+    return (
+      <div>
+        <FilterBar
+          orbitingBodies={orbitingBody}
+          handleChange={this.handleChange}
+          orbitingBoby={this.state.orbitingBody}
+        />
+        <div id="chart1"></div>
+      </div>
+    );
   }
 }
