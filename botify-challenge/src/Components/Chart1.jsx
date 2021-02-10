@@ -58,7 +58,7 @@ export default class Chart1 extends Component {
 
     const options = {
       title: "Near Earth object",
-      height: 1000,
+      height: 2000,
     };
 
     const chart1 = new GoogleCharts.api.visualization.BarChart(
